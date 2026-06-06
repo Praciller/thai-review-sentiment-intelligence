@@ -1,0 +1,8 @@
+services:
+  - type: web
+    runtime: docker
+    name: thai-review-sentiment-intelligence
+    plan: free
+    region: singapore
+    healthCheckPath: /health
+    autoDeployTrigger: checksPass

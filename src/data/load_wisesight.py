@@ -19,7 +19,7 @@ RAW_DATA_PATH = Path("data/raw/wisesight_raw.csv")
 SOURCE_METADATA_PATH = Path("data/raw/wisesight_source.json")
 OFFICIAL_REPOSITORY_BASE = (
     "https://raw.githubusercontent.com/PyThaiNLP/"
-    "wisesight-sentiment/master"
+    "wisesight-sentiment/c1d063649abc3a6870b5fd1aae26cd1c64bdde7b"
 )
 REPOSITORY_LABEL_FILES = {
     "pos": "pos.txt",

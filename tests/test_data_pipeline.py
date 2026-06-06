@@ -3,7 +3,11 @@ from pathlib import Path
 import pandas as pd
 
 from src.data.eda import generate_eda_artifacts
-from src.data.load_wisesight import load_wisesight_dataframe, save_raw_dataset
+from src.data.load_wisesight import (
+    OFFICIAL_REPOSITORY_BASE,
+    load_wisesight_dataframe,
+    save_raw_dataset,
+)
 from src.data.validate_data import validate_dataset
 
 
@@ -17,6 +21,14 @@ def fake_corpus_fetcher():
         ],
         ["pos", "neg", "q", "neu"],
         "test-fixture",
+    )
+
+
+def test_official_corpus_source_is_pinned_to_a_commit():
+    assert (
+        OFFICIAL_REPOSITORY_BASE
+        == "https://raw.githubusercontent.com/PyThaiNLP/"
+        "wisesight-sentiment/c1d063649abc3a6870b5fd1aae26cd1c64bdde7b"
     )
 
 

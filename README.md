@@ -26,19 +26,21 @@ turning predictions into operational insights in React.
    [`data/sample/sample_reviews.csv`](data/sample/sample_reviews.csv).
 4. Check the verified quality gates and explicit limitations below.
 
-This repository is intentionally local-first and free to run. It does not claim
-a public production deployment; the screenshots below show the verified local
-workflow using the trained Logistic Regression artifact.
+This repository is free to run locally and includes a production single-container
+deployment path. The screenshots below show the verified workflow using the
+trained Logistic Regression artifact.
 
 ## Verified Quality
 
 Verified on June 6, 2026:
 
-- 32 backend tests passed.
+- 33 backend tests passed.
 - 5 frontend tests, ESLint, TypeScript, and the Vite production build passed.
 - Docker API and frontend images built successfully.
 - Compose health, single prediction, and 100-review batch workflows passed.
-- GitHub Actions validates backend and frontend changes on every push.
+- The production image served React, API health, and baseline inference together.
+- GitHub Actions validates backend, frontend, and the production image on every
+  push.
 
 ## Project Overview
 
@@ -193,6 +195,9 @@ Shared test set, seed 42:
 
 Accuracy alone favors the majority-heavy SVM. Macro F1 selects Logistic
 Regression because it balances performance across all four labels.
+The table records the Windows verification run. The Linux production image
+reproduced the same model selection with 0.5693 macro F1; small last-digit
+variation is expected across numerical backends.
 
 ## How to Run API
 
@@ -231,6 +236,8 @@ Open <http://localhost:5173>. The default API URL is
 
 ## Docker
 
+### Local development
+
 ```powershell
 docker compose up --build
 ```
@@ -241,6 +248,19 @@ docker compose up --build
 
 The API image is baseline-focused to keep it smaller. Mount a local
 `models/baseline_model.joblib` through Compose, or use development demo mode.
+
+### Production container
+
+```powershell
+docker build -t thai-review-sentiment-intelligence .
+docker run --rm -p 7860:7860 thai-review-sentiment-intelligence
+```
+
+Open <http://localhost:7860>. The multi-stage image builds React, trains the
+selected baseline from a pinned Wisesight corpus revision, and serves the UI and
+API from one FastAPI process. No model binary is committed to Git.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Praciller/thai-review-sentiment-intelligence)
 
 ## Screenshots
 
@@ -299,7 +319,7 @@ examples. See [error-analysis documentation](docs/error_analysis.md) and
 - Add active learning and manual correction workflows.
 - Train topic classification from labeled business data.
 - Add model drift and confidence monitoring.
-- Publish an optional Hugging Face Spaces demo.
+- Add authentication and persistent review history.
 - Integrate with restaurant POS/review workflows.
 
 ## Documentation
