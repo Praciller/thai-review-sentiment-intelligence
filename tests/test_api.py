@@ -28,7 +28,7 @@ class FakePredictor:
         ]
 
 
-def make_client():
+def make_client(*, frontend_dist_path=None):
     load_count = {"value": 0}
 
     def predictor_factory():
@@ -38,6 +38,7 @@ def make_client():
     settings = Settings(
         app_env="test",
         frontend_origins="http://localhost:5173",
+        frontend_dist_path=frontend_dist_path or "frontend/dist",
         max_text_length=20,
         max_batch_size=3,
     )
@@ -140,3 +141,33 @@ def test_cors_allows_only_configured_frontend_origin():
         == "http://localhost:5173"
     )
     assert "access-control-allow-origin" not in denied.headers
+
+
+def test_serves_built_frontend_without_shadowing_api_routes(tmp_path):
+    dist_path = tmp_path / "dist"
+    assets_path = dist_path / "assets"
+    assets_path.mkdir(parents=True)
+    (dist_path / "index.html").write_text(
+        "<html><body>Thai Review Intelligence</body></html>",
+        encoding="utf-8",
+    )
+    (assets_path / "app.js").write_text(
+        "console.log('ready')",
+        encoding="utf-8",
+    )
+    client, _ = make_client(frontend_dist_path=dist_path)
+
+    with client:
+        home = client.get("/")
+        spa_route = client.get("/batch")
+        asset = client.get("/assets/app.js")
+        health = client.get("/health")
+
+    assert home.status_code == 200
+    assert "Thai Review Intelligence" in home.text
+    assert spa_route.status_code == 200
+    assert "Thai Review Intelligence" in spa_route.text
+    assert asset.status_code == 200
+    assert asset.text == "console.log('ready')"
+    assert health.status_code == 200
+    assert health.json()["status"] == "ok"

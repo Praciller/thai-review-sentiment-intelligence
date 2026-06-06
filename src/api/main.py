@@ -5,9 +5,12 @@ from __future__ import annotations
 from collections.abc import Callable
 from contextlib import asynccontextmanager
 from dataclasses import asdict
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, field_validator
 
 from src.models.model_registry import load_predictor
@@ -136,6 +139,7 @@ def create_app(
             results=[_to_response(result) for result in results]
         )
 
+    _attach_frontend(app, resolved_settings.frontend_dist_path)
     return app
 
 
@@ -149,6 +153,36 @@ def _validate_text_length(text: str, *, max_length: int) -> None:
             status_code=422,
             detail=f"text exceeds maximum length of {max_length}",
         )
+
+
+def _attach_frontend(app: FastAPI, dist_path: Path) -> None:
+    resolved_dist = dist_path.resolve()
+    index_path = resolved_dist / "index.html"
+    if not index_path.is_file():
+        return
+
+    assets_path = resolved_dist / "assets"
+    if assets_path.is_dir():
+        app.mount(
+            "/assets",
+            StaticFiles(directory=assets_path),
+            name="frontend-assets",
+        )
+
+    @app.get("/", include_in_schema=False)
+    def frontend_root() -> FileResponse:
+        return FileResponse(index_path)
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    def frontend_route(full_path: str) -> FileResponse:
+        requested_path = (resolved_dist / full_path).resolve()
+        try:
+            requested_path.relative_to(resolved_dist)
+        except ValueError:
+            return FileResponse(index_path)
+        if requested_path.is_file():
+            return FileResponse(requested_path)
+        return FileResponse(index_path)
 
 
 app = create_app()

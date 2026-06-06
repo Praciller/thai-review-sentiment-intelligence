@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     model_backend: str = "auto"
     baseline_model_path: Path = Path("models/baseline_model.joblib")
     transformer_model_path: Path = Path("models/wangchanberta_sentiment")
+    frontend_dist_path: Path = Path("frontend/dist")
     frontend_origins: str = "http://localhost:5173"
     max_text_length: int = 2_000
     max_batch_size: int = 100
