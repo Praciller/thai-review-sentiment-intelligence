@@ -4,6 +4,7 @@
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB)
 ![React](https://img.shields.io/badge/React-19-087EA4)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Render-46E3B7)](https://thai-review-sentiment-intelligence.onrender.com)
 
 End-to-end Thai NLP portfolio project for loading and validating customer-review
 data, training comparable sentiment models, serving inference through FastAPI, and
@@ -22,13 +23,13 @@ turning predictions into operational insights in React.
 1. Scan the [model results](#model-results) and why macro F1 selected the model.
 2. Review the [architecture](docs/architecture.md) and generated
    [error analysis](reports/error_analysis.md).
-3. Run the API and React app, then upload
+3. Try the [live demo](https://thai-review-sentiment-intelligence.onrender.com)
+   or run locally, then upload
    [`data/sample/sample_reviews.csv`](data/sample/sample_reviews.csv).
 4. Check the verified quality gates and explicit limitations below.
 
-This repository is free to run locally and includes a production single-container
-deployment path. The screenshots below show the verified workflow using the
-trained Logistic Regression artifact.
+The public demo and local workflow use the trained Logistic Regression artifact.
+The free Render instance may need about 50 seconds to wake after inactivity.
 
 ## Verified Quality
 
@@ -39,6 +40,7 @@ Verified on June 6, 2026:
 - Docker API and frontend images built successfully.
 - Compose health, single prediction, and 100-review batch workflows passed.
 - The production image served React, API health, and baseline inference together.
+- The public Render deployment passed health, page, and Thai prediction smoke tests.
 - GitHub Actions validates backend, frontend, and the production image on every
   push.
 
@@ -259,6 +261,9 @@ docker run --rm -p 7860:7860 thai-review-sentiment-intelligence
 Open <http://localhost:7860>. The multi-stage image builds React, trains the
 selected baseline from a pinned Wisesight corpus revision, and serves the UI and
 API from one FastAPI process. No model binary is committed to Git.
+
+[Live demo](https://thai-review-sentiment-intelligence.onrender.com) ·
+[Health endpoint](https://thai-review-sentiment-intelligence.onrender.com/health)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Praciller/thai-review-sentiment-intelligence)
 
