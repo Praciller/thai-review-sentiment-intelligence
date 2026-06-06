@@ -14,8 +14,8 @@ Outputs:
 
 ## Current Baseline Observations
 
-The selected Logistic Regression baseline made 1,378 errors across 4,017 test
-reviews, an error rate of 34.3%.
+The selected Logistic Regression baseline made 1,386 errors across 4,012 test
+reviews, an error rate of 34.5%.
 
 Expected difficult cases include:
 

@@ -2,7 +2,10 @@ import pandas as pd
 
 from src.evaluation.metrics import compute_classification_metrics
 from src.evaluation.error_analysis import generate_error_analysis
-from src.models.train_baseline import train_baseline_candidates
+from src.models.train_baseline import (
+    build_baseline_models,
+    train_baseline_candidates,
+)
 from src.models.train_transformer import _debug_sample
 from src.models.splitting import create_stratified_split
 from src.utils.constants import SENTIMENT_LABELS
@@ -112,6 +115,22 @@ def test_train_baseline_candidates_trains_both_required_models():
         assert result.predictions[probability_columns].sum(axis=1).round(6).eq(
             1.0
         ).all()
+
+
+def test_baseline_vectorizer_preserves_presegmented_thai_tokens():
+    pipeline = build_baseline_models(seed=42)["logistic_regression"]
+    vectorizer = pipeline.named_steps["tfidf"]
+    text = "ส่ง เร็ว แพ็ก ของ เรียบร้อย"
+
+    vectorizer.fit([text])
+
+    assert set(vectorizer.get_feature_names_out()) >= {
+        "ส่ง",
+        "เร็ว",
+        "แพ็ก",
+        "เรียบร้อย",
+        "ส่ง เร็ว",
+    }
 
 
 def test_generate_error_analysis_saves_misclassified_rows_and_markdown(tmp_path):

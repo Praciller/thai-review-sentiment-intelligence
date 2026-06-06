@@ -1,46 +1,46 @@
 # Error Analysis
 
 - Total predictions: 4,012
-- Misclassified: 1,378
-- Error rate: 34.3%
+- Misclassified: 1,386
+- Error rate: 34.5%
 
 ## Most confused label pairs
 
 | Actual | Predicted | Count |
 |---|---|---:|
-| neutral | positive | 345 |
-| neutral | negative | 325 |
+| neutral | positive | 348 |
+| neutral | negative | 346 |
 | positive | neutral | 225 |
-| negative | neutral | 151 |
-| neutral | question | 120 |
-| positive | negative | 92 |
-| negative | positive | 59 |
+| negative | neutral | 153 |
+| neutral | question | 118 |
+| positive | negative | 73 |
+| negative | positive | 57 |
 | question | neutral | 24 |
-| positive | question | 13 |
-| negative | question | 11 |
+| negative | question | 16 |
+| positive | question | 15 |
 
 ## Error rate by text length
 
 | Characters | Errors | Reviews | Error rate |
 |---|---:|---:|---:|
-| 0-25 | 609 | 1441 | 42.3% |
-| 26-50 | 316 | 877 | 36.0% |
-| 51-100 | 218 | 727 | 30.0% |
-| 101-200 | 128 | 509 | 25.1% |
-| 201+ | 107 | 458 | 23.4% |
+| 0-25 | 596 | 1441 | 41.4% |
+| 26-50 | 329 | 877 | 37.5% |
+| 51-100 | 223 | 727 | 30.7% |
+| 101-200 | 126 | 509 | 24.8% |
+| 201+ | 112 | 458 | 24.5% |
 
 ## Hard cases
 
-- `neutral` → `negative` (28.5%): อ้าวบาบิก้อน เราอายุเท่ากันหรือนี้
-- `neutral` → `negative` (29.4%): เซรั่มน้ำนมเข้มข้น ตอบโจทย์ทุกปัญหาผิว 💯 #DrJiLL อัดแน่นด้วยสารสกัด #5EGF #เหมาะกับทุกสภาพผิว 😎✨จะผิวแบบไหนก็ใช้ได้ !! ✔ผิวผสม ✔ผิวแห้ง ✔ผิวมัน ✔ผิวแพ้ง่าย #DrJiLLG5Essence เซรั่มของคุณหมอ ขวดเดียว จบทุกปัญหาผิว 💫
-- `negative` → `positive` (29.6%): ใช้นาวารา มา 4 ปี ไมวิ่ง 110000 นิดๆ เทอร์เบอร์พังแล้วเมื่อวานนี้ ทำไมเทอร์โบนาวารามันกากจังครับ
-- `neutral` → `question` (30.0%): ลด 20%
-- `neutral` → `positive` (30.0%): มีกี่ใบอ่ะ
-- `neutral` → `positive` (30.8%): ขอจองน้ำซุปต้มยำ
-- `positive` → `neutral` (31.4%): แบบนี้ปะละ หรือไรดี คิด
-- `negative` → `question` (31.7%): คุ้มค่าเช่าชุดมั้ย
-- `question` → `positive` (31.9%): วันนี้มีของรึยัง
-- `neutral` → `positive` (32.1%): มิสซูกับนิสัน คือกลุ่ม RenaULT nissan ครับ
+- `neutral` → `positive` (28.9%): ขอจองน้ำซุปต้มยำ
+- `positive` → `negative` (29.0%): หน้าใครกันน้า..ที่นุ่มเด้งแบบเจลลี่?!? ก็หน้าซิสนี่แหละค่ะ เพราะอะไรหรอคะ ก็เพราะ การ์นิเย่ ซากุระ ไวท์ อควา เจลลี่ เอสเซนส์ ที่บันดาลให้หน้านุ่ม เด้ง ฉ่ำน้ำ อมชมพู ดุจกลีบดอกซากุระ ไม่เชื่อลองดิ ลองเลย แล้วจะรู้ว่าแก้มนุ่มเด้งกว่าเจลลี่เนี่ยมันเรื่องจริง!
+- `neutral` → `positive` (29.6%): นิสสัน นี่น่าห่วงนะครับ
+- `negative` → `positive` (30.0%): ใช้นาวารา มา 4 ปี ไมวิ่ง 110000 นิดๆ เทอร์เบอร์พังแล้วเมื่อวานนี้ ทำไมเทอร์โบนาวารามันกากจังครับ
+- `negative` → `neutral` (30.3%): ถ้าเรามีบุหร่ไฟฟ้า...เราต้องพกใบกำกับภาษีก้วยใช่ไหมค่ะ
+- `negative` → `neutral` (30.7%): ที่เปิดให้จองไว้ป่านนี้ยังไม่ได้ และยังเก็บค่าส่งด้วย แล้วทำไมซื้อที่ยังร้านมีส่วนลดอีก หมายความว่าไงค่ะ
+- `neutral` → `negative` (30.8%): ใกล้สิ้นปีตำรวจเขาจะขยันหน่อยครับทำยอด
+- `neutral` → `question` (31.1%): นาวาร่า7.9
+- `neutral` → `negative` (31.1%): พรบ.คู่ชีวิตไทยนี่ถึงไหนแล้วคะ ไต้หวันไปไกลแล้วนะ............ 🤔
+- `neutral` → `positive` (31.1%): หัวหน้ามาเฟีย สันต์ ปิดร้านเช้าสักวันไหม
 
 ## Possible reasons
 

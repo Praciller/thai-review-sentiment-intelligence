@@ -46,3 +46,38 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - run: docker build --tag thai-review-sentiment-intelligence:ci .
+      - run: |
+          docker run --detach --name thai-review-ci \
+            --publish 7860:7860 \
+            thai-review-sentiment-intelligence:ci
+          trap 'docker logs thai-review-ci; docker rm --force thai-review-ci' EXIT
+          python3 - <<'PY'
+          import json
+          import time
+          from urllib.error import URLError
+          from urllib.request import Request, urlopen
+
+          for _ in range(30):
+              try:
+                  with urlopen("http://127.0.0.1:7860/health", timeout=2):
+                      break
+              except URLError:
+                  time.sleep(1)
+          else:
+              raise SystemExit("production container did not become healthy")
+
+          payload = json.dumps(
+              {"text": "\u0e2a\u0e48\u0e07\u0e40\u0e23\u0e47\u0e27 "
+               "\u0e41\u0e1e\u0e47\u0e01\u0e02\u0e2d\u0e07"
+               "\u0e40\u0e23\u0e35\u0e22\u0e1a\u0e23\u0e49\u0e2d\u0e22"}
+          ).encode()
+          request = Request(
+              "http://127.0.0.1:7860/predict",
+              data=payload,
+              headers={"Content-Type": "application/json"},
+              method="POST",
+          )
+          with urlopen(request, timeout=5) as response:
+              prediction = json.load(response)
+          assert prediction["predicted_label"] == "positive", prediction
+          PY

@@ -35,7 +35,7 @@ The free Render instance may need about 50 seconds to wake after inactivity.
 
 Verified on June 6, 2026:
 
-- 33 backend tests passed.
+- 34 backend tests passed.
 - 5 frontend tests, ESLint, TypeScript, and the Vite production build passed.
 - Docker API and frontend images built successfully.
 - Compose health, single prediction, and 100-review batch workflows passed.
@@ -191,14 +191,14 @@ Shared test set, seed 42:
 
 | Model | Accuracy | Macro F1 | Weighted F1 | Notes |
 |---|---:|---:|---:|---|
-| TF-IDF + Logistic Regression | 0.6565 | **0.5703** | 0.6627 | Selected by macro F1 |
-| TF-IDF + Linear SVM | **0.7044** | 0.5082 | **0.6788** | Calibrated probabilities |
+| TF-IDF + Logistic Regression | 0.6545 | **0.5731** | 0.6608 | Selected by macro F1 |
+| TF-IDF + Linear SVM | **0.7116** | 0.5305 | **0.6909** | Calibrated probabilities |
 | WangchanBERTa Fine-tuned | Not run | Not run | Not run | Debug pipeline verified; full benchmark pending |
 
 Accuracy alone favors the majority-heavy SVM. Macro F1 selects Logistic
 Regression because it balances performance across all four labels.
 The table records the Windows verification run. The Linux production image
-reproduced the same model selection with 0.5693 macro F1; small last-digit
+reproduced the same model selection with 0.5720 macro F1; small last-digit
 variation is expected across numerical backends.
 
 ## How to Run API
@@ -295,7 +295,7 @@ API from one FastAPI process. No model binary is committed to Git.
 
 ## Error Analysis
 
-The selected baseline made 1,378 errors across 4,017 test reviews (34.3%).
+The selected baseline made 1,386 errors across 4,012 test reviews (34.5%).
 Generated analysis covers confused label pairs, error rate by length, and hard
 examples. See [error-analysis documentation](docs/error_analysis.md) and
 [generated report](reports/error_analysis.md).

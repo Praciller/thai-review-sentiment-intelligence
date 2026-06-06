@@ -52,7 +52,10 @@ def _vectorizer() -> TfidfVectorizer:
         min_df=1,
         max_features=50_000,
         sublinear_tf=True,
-        token_pattern=r"(?u)\b\w+\b",
+        tokenizer=str.split,
+        preprocessor=None,
+        token_pattern=None,
+        lowercase=False,
     )
 
 

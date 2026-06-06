@@ -21,6 +21,10 @@ Macro F1 is the model-selection metric because the dataset is imbalanced.
 2. Word unigram/bigram TF-IDF plus class-balanced Linear SVM calibrated with
    three-fold cross-validation for probabilities.
 
+TF-IDF consumes the space-delimited tokens produced by PyThaiNLP directly. It
+does not apply a second regex tokenizer, which would split Thai combining marks
+and corrupt words such as `เร็ว` and `แพ็ก`.
+
 The saved joblib bundle contains the complete vectorizer/classifier pipeline,
 labels, seed, model name, and training timestamp.
 
