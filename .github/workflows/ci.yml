@@ -54,14 +54,13 @@ jobs:
           python3 - <<'PY'
           import json
           import time
-          from urllib.error import URLError
           from urllib.request import Request, urlopen
 
           for _ in range(30):
               try:
                   with urlopen("http://127.0.0.1:7860/health", timeout=2):
                       break
-              except URLError:
+              except OSError:
                   time.sleep(1)
           else:
               raise SystemExit("production container did not become healthy")
