@@ -1,0 +1,142 @@
+from fastapi.testclient import TestClient
+
+from src.api.main import create_app
+from src.models.predict import PredictionResult
+from src.utils.config import Settings
+
+
+class FakePredictor:
+    model_name = "fake-model"
+
+    def predict(self, texts):
+        return [
+            PredictionResult(
+                text=text,
+                predicted_label="positive",
+                confidence=0.7,
+                probabilities={
+                    "positive": 0.7,
+                    "negative": 0.1,
+                    "neutral": 0.1,
+                    "question": 0.1,
+                },
+                model_name=self.model_name,
+                topic="service",
+                topic_method="rule_based",
+            )
+            for text in texts
+        ]
+
+
+def make_client():
+    load_count = {"value": 0}
+
+    def predictor_factory():
+        load_count["value"] += 1
+        return FakePredictor()
+
+    settings = Settings(
+        app_env="test",
+        frontend_origins="http://localhost:5173",
+        max_text_length=20,
+        max_batch_size=3,
+    )
+    app = create_app(settings=settings, predictor_factory=predictor_factory)
+    return TestClient(app), load_count
+
+
+def test_health_endpoint_loads_model_once_for_application_lifespan():
+    client, load_count = make_client()
+
+    with client:
+        first = client.get("/health")
+        second = client.get("/health")
+
+    assert first.status_code == 200
+    assert first.json() == {
+        "status": "ok",
+        "model_loaded": True,
+        "model_name": "fake-model",
+        "runtime_mode": "test",
+    }
+    assert second.status_code == 200
+    assert load_count["value"] == 1
+
+
+def test_predict_returns_required_response_structure():
+    client, _ = make_client()
+
+    with client:
+        response = client.post("/predict", json={"text": "บริการดีมาก"})
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["text"] == "บริการดีมาก"
+    assert payload["predicted_label"] == "positive"
+    assert payload["confidence"] == 0.7
+    assert set(payload["probabilities"]) == {
+        "positive",
+        "negative",
+        "neutral",
+        "question",
+    }
+    assert payload["model_name"] == "fake-model"
+    assert payload["topic_method"] == "rule_based"
+
+
+def test_predict_rejects_empty_or_oversized_text():
+    client, _ = make_client()
+
+    with client:
+        empty = client.post("/predict", json={"text": "   "})
+        oversized = client.post("/predict", json={"text": "ก" * 21})
+
+    assert empty.status_code == 422
+    assert oversized.status_code == 422
+
+
+def test_predict_batch_preserves_input_order_and_enforces_limit():
+    client, _ = make_client()
+
+    with client:
+        response = client.post(
+            "/predict-batch",
+            json={"texts": ["รีวิวหนึ่ง", "รีวิวสอง"]},
+        )
+        oversized = client.post(
+            "/predict-batch",
+            json={"texts": ["หนึ่ง", "สอง", "สาม", "สี่"]},
+        )
+
+    assert response.status_code == 200
+    assert [item["text"] for item in response.json()["results"]] == [
+        "รีวิวหนึ่ง",
+        "รีวิวสอง",
+    ]
+    assert oversized.status_code == 422
+
+
+def test_cors_allows_only_configured_frontend_origin():
+    client, _ = make_client()
+
+    with client:
+        allowed = client.options(
+            "/predict",
+            headers={
+                "Origin": "http://localhost:5173",
+                "Access-Control-Request-Method": "POST",
+            },
+        )
+        denied = client.options(
+            "/predict",
+            headers={
+                "Origin": "https://untrusted.example",
+                "Access-Control-Request-Method": "POST",
+            },
+        )
+
+    assert (
+        allowed.headers["access-control-allow-origin"]
+        == "http://localhost:5173"
+    )
+    assert "access-control-allow-origin" not in denied.headers

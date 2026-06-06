@@ -1,0 +1,85 @@
+{
+  "best_model": "logistic_regression",
+  "seed": 42,
+  "dataset_rows": 26746,
+  "models": {
+    "logistic_regression": {
+      "accuracy": 0.656530408773679,
+      "precision": 0.5436944121267627,
+      "recall": 0.634218563258105,
+      "macro_f1": 0.5703384658222758,
+      "weighted_f1": 0.6626754483520995,
+      "confusion_matrix": [
+        [
+          387,
+          92,
+          225,
+          13
+        ],
+        [
+          59,
+          802,
+          151,
+          11
+        ],
+        [
+          345,
+          325,
+          1395,
+          120
+        ],
+        [
+          4,
+          9,
+          24,
+          50
+        ]
+      ],
+      "labels": [
+        "positive",
+        "negative",
+        "neutral",
+        "question"
+      ]
+    },
+    "linear_svm": {
+      "accuracy": 0.7043868394815553,
+      "precision": 0.6793651448640379,
+      "recall": 0.4786147300109778,
+      "macro_f1": 0.5081533355061191,
+      "weighted_f1": 0.6787975021469829,
+      "confusion_matrix": [
+        [
+          217,
+          57,
+          442,
+          1
+        ],
+        [
+          16,
+          655,
+          351,
+          1
+        ],
+        [
+          79,
+          156,
+          1947,
+          3
+        ],
+        [
+          2,
+          4,
+          74,
+          7
+        ]
+      ],
+      "labels": [
+        "positive",
+        "negative",
+        "neutral",
+        "question"
+      ]
+    }
+  }
+}
