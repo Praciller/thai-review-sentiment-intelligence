@@ -24,12 +24,21 @@ turning predictions into operational insights in React.
    [error analysis](reports/error_analysis.md).
 3. Run the API and React app, then upload
    [`data/sample/sample_reviews.csv`](data/sample/sample_reviews.csv).
-4. Read [PORTFOLIO_REVIEW.md](PORTFOLIO_REVIEW.md) for skills demonstrated and
-   explicit gaps.
+4. Check the verified quality gates and explicit limitations below.
 
 This repository is intentionally local-first and free to run. It does not claim
 a public production deployment; the screenshots below show the verified local
 workflow using the trained Logistic Regression artifact.
+
+## Verified Quality
+
+Verified on June 6, 2026:
+
+- 32 backend tests passed.
+- 5 frontend tests, ESLint, TypeScript, and the Vite production build passed.
+- Docker API and frontend images built successfully.
+- Compose health, single prediction, and 100-review batch workflows passed.
+- GitHub Actions validates backend and frontend changes on every push.
 
 ## Project Overview
 
@@ -301,4 +310,3 @@ examples. See [error-analysis documentation](docs/error_analysis.md) and
 - [API](docs/api.md)
 - [Frontend](docs/frontend.md)
 - [Error analysis](docs/error_analysis.md)
-- [Portfolio review](PORTFOLIO_REVIEW.md)

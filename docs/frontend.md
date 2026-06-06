@@ -18,9 +18,6 @@
 
 ## Design
 
-The interface follows `PRODUCT.md`, `DESIGN.md`, and
-`docs/design/dashboard-concept.png`.
-
 - Warm paper light theme for daytime analyst use.
 - Ink blue actions, tamarind active state, semantic sentiment colors.
 - Open bands and dividers instead of nested cards.

@@ -31,3 +31,10 @@ frontend/*.tsbuildinfo
 
 .DS_Store
 Thumbs.db
+
+# Local planning and portfolio working notes
+/DESIGN.md
+/PORTFOLIO_REVIEW.md
+/PRODUCT.md
+/thai-review-sentiment-intelligence-requirements.md
+/docs/superpowers/
