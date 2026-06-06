@@ -9,7 +9,13 @@ End-to-end Thai NLP portfolio project for loading and validating customer-review
 data, training comparable sentiment models, serving inference through FastAPI, and
 turning predictions into operational insights in React.
 
-![Prediction dashboard](docs/screenshots/prediction-dashboard.png)
+<p align="center">
+  <img
+    src="docs/screenshots/prediction-dashboard.png"
+    alt="Thai Review Intelligence prediction dashboard"
+    width="1200"
+  >
+</p>
 
 ## 30-Second Portfolio Review
 
@@ -231,15 +237,27 @@ The API image is baseline-focused to keep it smaller. Mount a local
 
 ### Single prediction and analytics
 
-![Single prediction](docs/screenshots/prediction-dashboard.png)
+<img
+  src="docs/screenshots/prediction-dashboard.png"
+  alt="Single Thai review prediction with class probabilities"
+  width="1200"
+>
 
 ### Batch CSV analysis
 
-![Batch analysis](docs/screenshots/batch-analysis.png)
+<img
+  src="docs/screenshots/batch-analysis.png"
+  alt="Batch CSV sentiment analysis results"
+  width="1200"
+>
 
 ### Mobile layout
 
-![Mobile prediction](docs/screenshots/mobile-prediction.png)
+<img
+  src="docs/screenshots/mobile-prediction.png"
+  alt="Mobile Thai sentiment prediction result"
+  width="390"
+>
 
 ## Error Analysis
 
