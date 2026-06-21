@@ -1,0 +1,62 @@
+[
+  {
+    "id": "synthetic-positive",
+    "category": "positive",
+    "text": "อาหารอร่อยมาก บริการดี ประทับใจ",
+    "expected_label": "positive"
+  },
+  {
+    "id": "synthetic-neutral",
+    "category": "neutral",
+    "text": "ได้รับสินค้าแล้ว บรรจุภัณฑ์ปกติ",
+    "expected_label": "neutral"
+  },
+  {
+    "id": "synthetic-negative",
+    "category": "negative",
+    "text": "ส่งช้ามาก สินค้าเสียหาย บริการไม่ดี",
+    "expected_label": "negative"
+  },
+  {
+    "id": "synthetic-mixed",
+    "category": "mixed sentiment",
+    "text": "อาหารอร่อยแต่รอนานและราคาแพง",
+    "expected_label": "negative"
+  },
+  {
+    "id": "synthetic-complaint",
+    "category": "complaint with detail",
+    "text": "พนักงานพูดดีแต่ส่งช้าเกินหนึ่งชั่วโมง",
+    "expected_label": "negative"
+  },
+  {
+    "id": "synthetic-positive-complaint",
+    "category": "positive with complaint detail",
+    "text": "ส่งช้าไปนิดแต่อาหารอร่อยมาก บริการดี ชอบเลย",
+    "expected_label": "positive"
+  },
+  {
+    "id": "synthetic-slang",
+    "category": "slang and informal Thai",
+    "text": "ของดีมากกก คุ้มสุดๆ ชอบเลย",
+    "expected_label": "positive"
+  },
+  {
+    "id": "synthetic-code-switch",
+    "category": "Thai-English mixed",
+    "text": "delivery เร็ว แพ็กของดีมาก ชอบ service",
+    "expected_label": "positive"
+  },
+  {
+    "id": "synthetic-ambiguous",
+    "category": "ambiguous or sarcastic",
+    "text": "ดีมากเลย รอนานแค่สองชั่วโมงเอง",
+    "expected_label": "negative"
+  },
+  {
+    "id": "synthetic-question",
+    "category": "question",
+    "text": "ร้านเปิดกี่โมง ส่งวันอาทิตย์ไหม?",
+    "expected_label": "question"
+  }
+]

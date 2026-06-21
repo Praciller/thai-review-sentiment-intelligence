@@ -22,6 +22,8 @@ jobs:
             requirements-ci.txt
       - run: pip install -r requirements-ci.txt
       - run: python -m pytest
+      - run: python scripts/generate_local_sentiment_report.py
+      - run: python scripts/check_repo_guardrails.py
 
   frontend:
     runs-on: ubuntu-latest

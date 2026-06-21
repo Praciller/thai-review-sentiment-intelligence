@@ -154,11 +154,14 @@ class DemoPredictor:
         return [self._predict_one(text) for text in texts]
 
     def _predict_one(self, text: str) -> PredictionResult:
+        positive_matches = sum(token in text for token in self._positive)
+        negative_matches = sum(token in text for token in self._negative)
+        question_matches = sum(token in text for token in self._question)
         scores = {
-            "positive": 0.8 + sum(token in text for token in self._positive),
-            "negative": 0.8 + sum(token in text for token in self._negative),
+            "positive": 0.8 + positive_matches,
+            "negative": 0.8 + negative_matches,
             "neutral": 0.8,
-            "question": 0.8 + sum(token in text for token in self._question),
+            "question": 0.8 + question_matches,
         }
         raw = np.array([scores[label] for label in SENTIMENT_LABELS], dtype=float)
         exponentials = np.exp(raw - raw.max())
@@ -167,7 +170,14 @@ class DemoPredictor:
             label: float(normalized[index])
             for index, label in enumerate(SENTIMENT_LABELS)
         }
-        predicted_label = max(probabilities, key=probabilities.get)
+        if question_matches:
+            predicted_label = "question"
+        elif negative_matches and negative_matches >= positive_matches:
+            predicted_label = "negative"
+        elif positive_matches:
+            predicted_label = "positive"
+        else:
+            predicted_label = "neutral"
         return PredictionResult(
             text=text,
             predicted_label=predicted_label,

@@ -128,6 +128,33 @@ frontend/src/
 
 ## Setup Instructions
 
+### Zero-Cost Offline Review
+
+The default review path uses ten manually authored synthetic Thai fixtures and
+the deterministic `demo-rule-based` predictor. It needs no API key, hosted
+database, private review data, external AI service, or network call after Python
+dependencies are installed.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-ci.txt
+$env:DATA_MODE = "synthetic"
+$env:MODEL_MODE = "local"
+$env:ENABLE_EXTERNAL_AI = "false"
+$env:MODEL_BACKEND = "demo"
+python -m pytest
+python scripts/generate_local_sentiment_report.py
+python scripts/check_repo_guardrails.py
+```
+
+Inspect the ignored `reports/local_sentiment_report.md`. It shows normalized
+text, PyThaiNLP tokens, deterministic sentiment scores, aspect terms, and known
+failures. These synthetic fixture checks are not a general accuracy estimate and
+must not be used for automated business decisions without human review.
+
+Full commands and expected output: [local review guide](docs/local_review.md).
+
 ### Windows PowerShell
 
 ```powershell
@@ -329,6 +356,10 @@ examples. See [error-analysis documentation](docs/error_analysis.md) and
 
 ## Documentation
 
+- [Local review](docs/local_review.md)
+- [Model methodology](docs/model_methodology.md)
+- [Data card](docs/data_card.md)
+- [Portfolio review](docs/portfolio_review.md)
 - [Architecture](docs/architecture.md)
 - [Data source](docs/data_source.md)
 - [Modeling](docs/modeling_approach.md)
