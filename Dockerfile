@@ -46,6 +46,8 @@ COPY requirements-api.txt ./
 RUN pip install --no-cache-dir -r requirements-api.txt
 
 COPY src ./src
+COPY reports/baseline_metrics.json ./reports/baseline_metrics.json
+COPY data/sample/synthetic_reviews.json ./data/sample/synthetic_reviews.json
 COPY --from=model-builder /app/models/baseline_model.joblib ./models/baseline_model.joblib
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 RUN addgroup --system app \

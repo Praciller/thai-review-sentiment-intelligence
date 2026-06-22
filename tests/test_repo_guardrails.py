@@ -6,6 +6,7 @@ def test_guardrails_report_marker_names_without_exposing_values():
         {
             "data/private.csv": "email,review\nname@example.com,private text",
             "README.md": "This is a production-ready " + "sentiment model.",
+            "docs/runbook.md": "local path C:\\Users\\someone\\private\\model.joblib",
             ".env.example": "API_KEY=replace-with-your-key",
         }
     )
@@ -13,4 +14,5 @@ def test_guardrails_report_marker_names_without_exposing_values():
     assert findings == [
         "README.md: unsupported-claim",
         "data/private.csv: email-like-data",
+        "docs/runbook.md: local-user-path",
     ]

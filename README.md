@@ -33,9 +33,9 @@ The free Render instance may need about 50 seconds to wake after inactivity.
 
 ## Verified Quality
 
-Verified on June 6, 2026:
+Verified on June 22, 2026:
 
-- 34 backend tests passed.
+- 48 backend tests cover data, inference, governance, routing, explanations, monitoring, active learning, API contracts, and guardrails.
 - 5 frontend tests, ESLint, TypeScript, and the Vite production build passed.
 - Docker API and frontend images built successfully.
 - Compose health, single prediction, and 100-review batch workflows passed.
@@ -66,6 +66,8 @@ and highlights low-confidence or negative reviews for human follow-up.
 - PyTorch WangchanBERTa Trainer with CPU-friendly debug mode.
 - Shared split manifest and common evaluation/error-analysis outputs.
 - FastAPI single and batch inference with strict input limits and configured CORS.
+- Macro-F1 governance, confidence routing, approximate evidence, and typed operational metadata.
+- CI-safe monitoring/drift and synthetic active-learning queue reports.
 - Responsive React dashboard, CSV preview, filters, loading, and error states.
 - Optional local MLflow and Docker Compose.
 
@@ -252,6 +254,15 @@ Invoke-RestMethod `
 
 See [API documentation](docs/api.md).
 
+## Governance and Monitoring
+
+- [Model governance](docs/model_governance.md): macro-F1 selection and per-class evaluation.
+- [Confidence routing](docs/confidence_routing.md): auto-label, review, support, and escalation rules.
+- [Explainability](docs/explainability.md): TF-IDF evidence with deterministic fallback.
+- [Monitoring](docs/monitoring.md): local distributions, drift proxy, and warning flags.
+- [Active-learning queue](docs/active_learning.md): synthetic review prioritization.
+- [Security/privacy](docs/security_privacy.md): offline-data and tracked-content guardrails.
+
 ## How to Run React Frontend
 
 ```powershell
@@ -342,15 +353,15 @@ examples. See [error-analysis documentation](docs/error_analysis.md) and
 - One review receives one sentiment label even when it contains conflicting views.
 - Topic classification is rule-based, not a trained topic model.
 - Debug Transformer metrics are not meaningful model benchmarks.
-- No production monitoring, authentication, or persistence is included in v1.
+- Monitoring is a local synthetic demo, not live production monitoring.
+- Authentication and persistence are not included.
 
 ## Future Improvements
 
 - Complete full WangchanBERTa training and tune class imbalance.
-- Add LIME explanations for selected text predictions.
-- Add active learning and manual correction workflows.
+- Add an authenticated annotation workflow if real review correction is required.
 - Train topic classification from labeled business data.
-- Add model drift and confidence monitoring.
+- Connect monitoring to privacy-reviewed production telemetry if deployment scope requires it.
 - Add authentication and persistent review history.
 - Integrate with restaurant POS/review workflows.
 

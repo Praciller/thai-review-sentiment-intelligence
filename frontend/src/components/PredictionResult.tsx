@@ -57,6 +57,12 @@ export function PredictionResult({
             ความมั่นใจ {formatPercent(result.confidence)}
             <span className="model-label"> · {result.model_name}</span>
           </p>
+          <p className="governance-meta">
+            Production: {result.selected_production_model ?? "logistic_regression"} · เกณฑ์ {result.selection_metric ?? "macro_f1"} · Runtime: {result.model_name}
+          </p>
+          <p className="governance-meta">
+            เส้นทาง {formatRoute(result.route)}
+          </p>
         </div>
       </div>
       <div className="divider" />
@@ -70,6 +76,27 @@ export function PredictionResult({
           />
         ))}
       </div>
+      {result.evidence_terms?.length ? (
+        <div className="explanation-summary">
+          <strong>หลักฐานประกอบโดยประมาณ</strong>
+          <p>{result.evidence_terms.join(" · ")}</p>
+          <small>ใช้ช่วยตรวจสอบโมเดล ไม่ใช่คำอธิบายเชิงเหตุและผล</small>
+        </div>
+      ) : null}
+      {result.requires_human_review ? (
+        <p className="review-hint" role="status">
+          ควรให้เจ้าหน้าที่ตรวจสอบ: {result.reason_codes?.join(", ")}
+        </p>
+      ) : null}
     </section>
   );
+}
+
+function formatRoute(route: PredictionResultType["route"]): string {
+  return {
+    auto_label: "ติดป้ายอัตโนมัติ",
+    human_review: "ตรวจสอบโดยคน",
+    support_workflow: "ส่งทีมสนับสนุน",
+    escalation_queue: "คิวเร่งด่วน",
+  }[route ?? "auto_label"];
 }

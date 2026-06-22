@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     frontend_origins: str = "http://localhost:5173"
     max_text_length: int = 2_000
     max_batch_size: int = 100
+    max_request_bytes: int = 250_000
+    human_review_threshold: float = 0.7
 
     @field_validator("model_backend")
     @classmethod

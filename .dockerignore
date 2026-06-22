@@ -8,7 +8,8 @@ frontend/dist
 data/raw
 data/processed
 mlruns
-reports
+reports/*
+!reports/baseline_metrics.json
 docs/design
 docs/superpowers
 DESIGN.md

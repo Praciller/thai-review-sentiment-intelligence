@@ -12,6 +12,8 @@ COPY requirements-api.txt .
 RUN pip install --no-cache-dir -r requirements-api.txt
 
 COPY src ./src
+COPY reports/baseline_metrics.json ./reports/baseline_metrics.json
+COPY data/sample/synthetic_reviews.json ./data/sample/synthetic_reviews.json
 COPY models ./models
 
 EXPOSE 8000

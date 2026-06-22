@@ -17,7 +17,10 @@ FORBIDDEN_PARTS = {
     "build",
     ".venv",
 }
-FORBIDDEN_SUFFIXES = {".db", ".sqlite", ".sqlite3", ".xlsx", ".xls"}
+FORBIDDEN_SUFFIXES = {
+    ".bin", ".ckpt", ".db", ".joblib", ".onnx", ".pkl", ".pt", ".pth",
+    ".safetensors", ".sqlite", ".sqlite3", ".xls", ".xlsx",
+}
 IGNORED_REPORTS = {"reports/local_sentiment_report.md"}
 UNSUPPORTED_CLAIMS = re.compile(
     "|".join(
@@ -33,6 +36,7 @@ UNSUPPORTED_CLAIMS = re.compile(
 EMAIL = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)
 PHONE = re.compile(r"(?<!\d)(?:\+?66|0)[689]\d{8}(?!\d)")
 SECRET = re.compile(r"\b(?:sk|ghp|github_pat)_[A-Za-z0-9_-]{16,}\b")
+LOCAL_USER_PATH = re.compile(r"(?:[A-Za-z]:\\Users\\[^\\\s]+|/Users/[^/\s]+)")
 TEXT_SUFFIXES = {".csv", ".json", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"}
 PII_DATA_SUFFIXES = {".csv", ".json"}
 APPROVED_PUBLIC_DATA = {"data/raw/wisesight_source.json"}
@@ -49,6 +53,8 @@ def find_text_violations(files: dict[str, str]) -> list[str]:
             findings.append(f"{path}: unsupported-claim")
         if SECRET.search(text):
             findings.append(f"{path}: secret-like-value")
+        if Path(path).suffix.lower() == ".md" and LOCAL_USER_PATH.search(text):
+            findings.append(f"{path}: local-user-path")
         suffix = Path(path).suffix.lower()
         if suffix in PII_DATA_SUFFIXES and path not in APPROVED_PUBLIC_DATA | APPROVED_SYNTHETIC_DATA:
             if EMAIL.search(text):

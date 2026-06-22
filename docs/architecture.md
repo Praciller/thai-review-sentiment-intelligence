@@ -20,7 +20,7 @@ flowchart LR
 - `src/data`: corpus access, validation, and reproducible EDA artifacts.
 - `src/features`: Thai text cleaning, tokenization, labels, and rule-based topics.
 - `src/models`: deterministic splitting, training, model loading, and inference.
-- `src/evaluation`: common metrics, model comparison, confusion matrix, errors.
+- `src/evaluation`: metrics, governance, explanations, offline monitoring, and review queues.
 - `src/api`: HTTP validation and inference orchestration only.
 - `frontend/src/services`: the only frontend layer that knows API URLs.
 - `frontend/src/pages`: workflow composition, not data parsing or HTTP details.

@@ -9,6 +9,8 @@ services:
       FRONTEND_ORIGINS: http://localhost:5173
       MAX_TEXT_LENGTH: 2000
       MAX_BATCH_SIZE: 100
+      MAX_REQUEST_BYTES: 250000
+      HUMAN_REVIEW_THRESHOLD: 0.70
     ports:
       - "8000:8000"
     volumes:

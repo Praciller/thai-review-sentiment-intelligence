@@ -36,8 +36,9 @@ Content-Type: application/json
 }
 ```
 
-The response includes the predicted label, confidence, probabilities for all four
-classes, model name, and rule-based topic.
+The response includes label probabilities, model/topic metadata, review route,
+threshold, reason codes, evidence/topic terms, explanation mode, and the model
+selection metric.
 
 ## Batch Prediction
 
@@ -59,10 +60,24 @@ Content-Type: application/json
 Batch requests preserve input order and accept 1-100 reviews. Each review is
 limited to 2,000 trimmed Unicode characters.
 
+## Governance Endpoints
+
+```http
+GET /model-info
+GET /monitoring/sample
+GET /governance
+GET /explanations/sample
+```
+
+These return typed, local artifacts. Monitoring and explanation samples use the
+repository's synthetic fixture batch; they do not query private or live data.
+
 ## Security
 
 - Empty and whitespace-only text is rejected.
 - Text and batch sizes are bounded.
+- Declared request-body size is bounded.
+- Validation and limit failures use structured error codes without echoing input.
 - Full review text is not logged by application code.
 - CORS accepts only comma-separated `FRONTEND_ORIGINS`.
 - Wildcard CORS configuration is rejected.

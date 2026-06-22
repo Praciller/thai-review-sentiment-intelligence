@@ -51,6 +51,9 @@ export function PredictionPage() {
           <ReviewInput isLoading={isLoading} onSubmit={handlePredict} />
           {isLoading ? <LoadingState /> : <PredictionResult result={result} />}
         </div>
+        <p className="demo-warning">
+          ผลลัพธ์นี้เป็นเดโมเพื่อช่วยจัดลำดับการตรวจสอบ ไม่ควรใช้ทำงานธุรกิจอัตโนมัติโดยไม่มีมนุษย์กำกับ
+        </p>
       </section>
       <DashboardOverview summary={summary} compact />
     </>

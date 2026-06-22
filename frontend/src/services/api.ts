@@ -28,12 +28,16 @@ async function requestJson<T>(
 
   if (!response.ok) {
     const payload = (await response.json().catch(() => null)) as
-      | { detail?: unknown }
+      | { detail?: unknown; error?: { message?: unknown } }
       | null;
-    const detail =
-      typeof payload?.detail === "string"
-        ? payload.detail
-        : `API ตอบกลับด้วยสถานะ ${response.status}`;
+    const rawDetail = payload?.detail;
+    const detail = typeof rawDetail === "string"
+      ? rawDetail
+      : rawDetail && typeof rawDetail === "object" && "message" in rawDetail
+        ? String(rawDetail.message)
+        : payload?.error?.message
+          ? String(payload.error.message)
+          : `API ตอบกลับด้วยสถานะ ${response.status}`;
     throw new Error(detail);
   }
   return (await response.json()) as T;

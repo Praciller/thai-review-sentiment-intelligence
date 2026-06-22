@@ -28,7 +28,7 @@ class FakePredictor:
         ]
 
 
-def make_client(*, frontend_dist_path=None):
+def make_client(*, frontend_dist_path=None, max_request_bytes=250_000):
     load_count = {"value": 0}
 
     def predictor_factory():
@@ -41,6 +41,7 @@ def make_client(*, frontend_dist_path=None):
         frontend_dist_path=frontend_dist_path or "frontend/dist",
         max_text_length=20,
         max_batch_size=3,
+        max_request_bytes=max_request_bytes,
     )
     app = create_app(settings=settings, predictor_factory=predictor_factory)
     return TestClient(app), load_count
@@ -82,7 +83,12 @@ def test_predict_returns_required_response_structure():
         "question",
     }
     assert payload["model_name"] == "fake-model"
+    assert payload["selected_production_model"] == "logistic_regression"
     assert payload["topic_method"] == "rule_based"
+    assert payload["route"] == "auto_label"
+    assert payload["confidence_threshold"] == 0.7
+    assert payload["explanation_mode"] == "keyword_demo"
+    assert payload["selection_metric"] == "macro_f1"
 
 
 def test_predict_rejects_empty_or_oversized_text():
@@ -94,6 +100,18 @@ def test_predict_rejects_empty_or_oversized_text():
 
     assert empty.status_code == 422
     assert oversized.status_code == 422
+    assert empty.json()["error"]["code"] == "validation_error"
+    assert oversized.json()["error"]["code"] == "text_too_long"
+
+
+def test_predict_rejects_oversized_request_body():
+    client, _ = make_client(max_request_bytes=10)
+
+    with client:
+        response = client.post("/predict", json={"text": "บริการดี"})
+
+    assert response.status_code == 413
+    assert response.json()["error"]["code"] == "request_too_large"
 
 
 def test_predict_batch_preserves_input_order_and_enforces_limit():
@@ -115,6 +133,27 @@ def test_predict_batch_preserves_input_order_and_enforces_limit():
         "รีวิวสอง",
     ]
     assert oversized.status_code == 422
+    assert oversized.json()["error"]["code"] == "batch_too_large"
+
+
+def test_governance_monitoring_model_info_and_explanation_endpoints():
+    client, _ = make_client()
+
+    with client:
+        model_info = client.get("/model-info")
+        monitoring = client.get("/monitoring/sample")
+        governance = client.get("/governance")
+        explanations = client.get("/explanations/sample")
+
+    assert model_info.status_code == 200
+    assert model_info.json()["selection_metric"] == "macro_f1"
+    assert model_info.json()["runtime_model_name"] == "fake-model"
+    assert monitoring.status_code == 200
+    assert monitoring.json()["sample_size"] == 10
+    assert governance.status_code == 200
+    assert governance.json()["selected_production_model"] == "logistic_regression"
+    assert explanations.status_code == 200
+    assert explanations.json()["results"][0]["explanation_mode"] == "keyword_demo"
 
 
 def test_cors_allows_only_configured_frontend_origin():
