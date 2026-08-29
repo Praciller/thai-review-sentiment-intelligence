@@ -33,16 +33,19 @@ The free Render instance may need about 50 seconds to wake after inactivity.
 
 ## Verified Quality
 
-Verified on June 22, 2026:
+Latest verification refresh: August 30, 2026:
 
-- 48 backend tests cover data, inference, governance, routing, explanations, monitoring, active learning, API contracts, and guardrails.
+- 57 backend tests passed on clean `origin/main`, covering data, inference,
+  governance, routing, explanations, monitoring, active learning, API
+  contracts, and guardrails.
 - 5 frontend tests, ESLint, TypeScript, and the Vite production build passed.
-- Docker API and frontend images built successfully.
-- Compose health, single prediction, and 100-review batch workflows passed.
-- The production image served React, API health, and baseline inference together.
-- The public Render deployment passed health, page, and Thai prediction smoke tests.
-- GitHub Actions validates backend, frontend, and the production image on every
-  push.
+- Ruff checks, Python byte-compilation, repository guardrails, and whitespace
+  validation passed for this documentation refresh.
+- The latest merged-main GitHub Actions run passed the backend, frontend, and
+  deployment-image jobs. This documentation-only refresh did not retrain or
+  tune a model.
+- Docker/Compose and public Render smoke evidence is kept as historical
+  evidence unless a current verification explicitly reruns those checks.
 
 ## Project Overview
 
@@ -232,9 +235,17 @@ variation is expected across numerical backends.
 
 ## Robustness challenge evaluation
 
-The **Wisesight held-out evaluation** above is the model-selection and final-test evidence. The separate [Thai sentiment robustness challenge report](reports/robustness_challenge.md) uses 27 manually authored, synthetic examples covering negation, code switching, slang, emphasis, questions, mixed sentiment, length, spelling variation, and defensible sarcasm-like cases.
+The **Wisesight held-out evaluation** above is the model-selection and final-test evidence. The separate [Thai sentiment robustness challenge report](reports/robustness_challenge.md) uses 27 manually authored, synthetic examples across 9 slices covering negation, code switching, slang, emphasis, questions, mixed sentiment, length, spelling variation, and defensible sarcasm-like cases.
 
-This challenge set is frozen diagnostic evidence only: it is not training, hyperparameter-tuning, or model-selection data, and contains no scraped customer reviews or private data. Re-run it against the existing baseline artifact with `python -m src.evaluation.robustness_challenge`; use `--demo-only` only when intentionally producing the separate deterministic demo result without a baseline artifact. Challenge failures remain visible in the report and do not justify changing the model solely to improve its challenge score.
+This challenge set is frozen diagnostic evidence only: it is not training,
+hyperparameter-tuning, or model-selection data, and contains no scraped
+customer reviews or private data. Re-run it against the existing baseline
+artifact with `python -m src.evaluation.robustness_challenge`; use `--demo-only`
+only when intentionally producing the separate deterministic demo result
+without a baseline artifact. The current report keeps the weakest baseline
+slices visible: defensible sarcasm-like examples score 0.0000 accuracy, while
+negation and question-like examples score 0.3333 each. No model tuning was
+performed on challenge data.
 
 ## How to Run API
 
