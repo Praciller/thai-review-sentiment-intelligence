@@ -43,6 +43,7 @@ APPROVED_PUBLIC_DATA = {"data/raw/wisesight_source.json"}
 APPROVED_SYNTHETIC_DATA = {
     "data/sample/sample_reviews.csv",
     "data/sample/synthetic_reviews.json",
+    "data/challenges/thai_sentiment_robustness.json",
 }
 
 

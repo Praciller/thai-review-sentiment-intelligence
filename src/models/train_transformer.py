@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from scipy.special import softmax
 
+from src.data.dataset_paths import ensure_not_diagnostic_challenge
 from src.evaluation.metrics import (
     classification_report_markdown,
     compute_classification_metrics,
@@ -253,6 +254,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_parser().parse_args()
+    ensure_not_diagnostic_challenge(args.input)
     frame = pd.read_csv(args.input)
     manifest = pd.read_csv(args.split_manifest)
     metrics = train_transformer(

@@ -1,0 +1,191 @@
+[
+  {
+    "id": "TRS-NEG-01",
+    "text": "ไม่อร่อยเลย รสชาติจืดมาก",
+    "expected_label": "negative",
+    "slice": "negation",
+    "rationale": "ไม่อร่อยเลย explicitly reverses the positive food-quality interpretation."
+  },
+  {
+    "id": "TRS-NEG-02",
+    "text": "ไม่ได้แย่ แต่ก็เฉยๆ ไม่มีอะไรพิเศษ",
+    "expected_label": "neutral",
+    "slice": "negation",
+    "rationale": "The negated negative phrase and explicit เฉยๆ indicate an unenthusiastic but neutral view."
+  },
+  {
+    "id": "TRS-NEG-03",
+    "text": "บริการไม่ได้ช้า ส่งตรงเวลามาก",
+    "expected_label": "positive",
+    "slice": "negation",
+    "rationale": "Negation removes the potential complaint and the on-time delivery statement is positive."
+  },
+  {
+    "id": "TRS-CODE-01",
+    "text": "delivery เร็วมาก แพ็กเกจดี ประทับใจ",
+    "expected_label": "positive",
+    "slice": "code_switching",
+    "rationale": "English delivery is embedded in otherwise clearly positive Thai feedback."
+  },
+  {
+    "id": "TRS-CODE-02",
+    "text": "service แย่และ response ช้ามาก",
+    "expected_label": "negative",
+    "slice": "code_switching",
+    "rationale": "The English service terms carry two explicit complaints: poor service and slow response."
+  },
+  {
+    "id": "TRS-CODE-03",
+    "text": "สินค้าโอเคนะ แต่ support ไม่ตอบเลย",
+    "expected_label": "negative",
+    "slice": "code_switching",
+    "rationale": "A mild positive acknowledgment is outweighed by the clear support failure."
+  },
+  {
+    "id": "TRS-SLANG-01",
+    "text": "อร่อยเว่อร์ ชอบมากกก",
+    "expected_label": "positive",
+    "slice": "conversational_slang",
+    "rationale": "เว่อร์ and repeated ก intensify an explicitly positive conversational reaction."
+  },
+  {
+    "id": "TRS-SLANG-02",
+    "text": "ของพังจ้า ไม่ไหวละ",
+    "expected_label": "negative",
+    "slice": "conversational_slang",
+    "rationale": "พัง and ไม่ไหวละ are common informal expressions of a clear failure."
+  },
+  {
+    "id": "TRS-SLANG-03",
+    "text": "ก็โอเคอะ ไม่ได้ว้าว",
+    "expected_label": "neutral",
+    "slice": "conversational_slang",
+    "rationale": "The casual wording communicates acceptable but unremarkable sentiment."
+  },
+  {
+    "id": "TRS-EMOJI-01",
+    "text": "ดีมาก!!! 😍",
+    "expected_label": "positive",
+    "slice": "emoji_punctuation",
+    "rationale": "Repeated exclamation marks and a heart-eyes emoji reinforce the positive adjective."
+  },
+  {
+    "id": "TRS-EMOJI-02",
+    "text": "แย่มาก!!! 😡",
+    "expected_label": "negative",
+    "slice": "emoji_punctuation",
+    "rationale": "Strong punctuation and an angry emoji reinforce an explicit negative judgment."
+  },
+  {
+    "id": "TRS-EMOJI-03",
+    "text": "ได้รับของแล้ว... ก็ปกติดี 🙂",
+    "expected_label": "neutral",
+    "slice": "emoji_punctuation",
+    "rationale": "The ellipsis and mild smile accompany a routine, explicitly normal outcome."
+  },
+  {
+    "id": "TRS-QUESTION-01",
+    "text": "ร้านเปิดกี่โมงคะ",
+    "expected_label": "question",
+    "slice": "question_like",
+    "rationale": "The sentence directly asks for opening time."
+  },
+  {
+    "id": "TRS-QUESTION-02",
+    "text": "ส่งฟรีไหม???",
+    "expected_label": "question",
+    "slice": "question_like",
+    "rationale": "ไหม and repeated question marks make the request for information unambiguous."
+  },
+  {
+    "id": "TRS-QUESTION-03",
+    "text": "มีไซซ์ใหญ่หรือเปล่า",
+    "expected_label": "question",
+    "slice": "question_like",
+    "rationale": "หรือเปล่า marks a direct product-availability question without sentiment judgment."
+  },
+  {
+    "id": "TRS-MIXED-01",
+    "text": "อาหารอร่อย แต่รอนานมาก",
+    "expected_label": "negative",
+    "slice": "mixed_sentiment",
+    "rationale": "The food is praised, but the severe waiting complaint is the dominant actionable sentiment."
+  },
+  {
+    "id": "TRS-MIXED-02",
+    "text": "พนักงานบริการดี แต่ห้องน้ำสกปรก",
+    "expected_label": "negative",
+    "slice": "mixed_sentiment",
+    "rationale": "A service compliment is paired with a concrete cleanliness complaint."
+  },
+  {
+    "id": "TRS-MIXED-03",
+    "text": "ส่งเร็วมากแต่แพ็กของเสียหาย",
+    "expected_label": "negative",
+    "slice": "mixed_sentiment",
+    "rationale": "Fast delivery is positive, but damaged packaging is a clear negative outcome."
+  },
+  {
+    "id": "TRS-LENGTH-01",
+    "text": "ดี",
+    "expected_label": "positive",
+    "slice": "length_contrast",
+    "rationale": "This deliberately short example contains one unambiguous positive judgment."
+  },
+  {
+    "id": "TRS-LENGTH-02",
+    "text": "แย่",
+    "expected_label": "negative",
+    "slice": "length_contrast",
+    "rationale": "This deliberately short example contains one unambiguous negative judgment."
+  },
+  {
+    "id": "TRS-LENGTH-03",
+    "text": "อาหารอร่อยมาก บริการดี พนักงานสุภาพและจัดส่งตรงเวลา ประทับใจทุกอย่าง",
+    "expected_label": "positive",
+    "slice": "length_contrast",
+    "rationale": "The longer sentence has several mutually reinforcing positive service and product details."
+  },
+  {
+    "id": "TRS-LENGTH-04",
+    "text": "รอคิวนานมาก แถมสินค้ามาถึงเสียหาย ต้องติดต่อหลายรอบกว่าจะได้คำตอบ",
+    "expected_label": "negative",
+    "slice": "length_contrast",
+    "rationale": "Multiple consistent operational complaints make the longer example clearly negative."
+  },
+  {
+    "id": "TRS-SPELL-01",
+    "text": "อร่อยยยมากกก",
+    "expected_label": "positive",
+    "slice": "spelling_variation",
+    "rationale": "Repeated final characters are a common expressive spelling variation around a positive phrase."
+  },
+  {
+    "id": "TRS-SPELL-02",
+    "text": "ช้ามากกกกก รอไม่ไหว",
+    "expected_label": "negative",
+    "slice": "spelling_variation",
+    "rationale": "Character repetition does not obscure the explicit complaint about slowness."
+  },
+  {
+    "id": "TRS-SPELL-03",
+    "text": "โอเคคค ไม่มีอะไรพิเศษ",
+    "expected_label": "neutral",
+    "slice": "spelling_variation",
+    "rationale": "The elongated spelling is informal, while the overall evaluation remains plainly unremarkable."
+  },
+  {
+    "id": "TRS-SARC-01",
+    "text": "ดีมาก รอแค่สามชั่วโมงเอง",
+    "expected_label": "negative",
+    "slice": "defensible_sarcasm",
+    "rationale": "The apparent praise is explicitly undercut by a three-hour wait; the negative label is defensible from the concrete complaint."
+  },
+  {
+    "id": "TRS-SARC-02",
+    "text": "ประทับใจสุดๆ ได้ของไม่ครบอีกแล้ว",
+    "expected_label": "negative",
+    "slice": "defensible_sarcasm",
+    "rationale": "The praise-like opener is contradicted by a missing-item complaint and อีกแล้ว, making the negative reading defensible."
+  }
+]

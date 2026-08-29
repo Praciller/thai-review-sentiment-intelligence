@@ -230,6 +230,12 @@ The table records the Windows verification run. The Linux production image
 reproduced the same model selection with 0.5720 macro F1; small last-digit
 variation is expected across numerical backends.
 
+## Robustness challenge evaluation
+
+The **Wisesight held-out evaluation** above is the model-selection and final-test evidence. The separate [Thai sentiment robustness challenge report](reports/robustness_challenge.md) uses 27 manually authored, synthetic examples covering negation, code switching, slang, emphasis, questions, mixed sentiment, length, spelling variation, and defensible sarcasm-like cases.
+
+This challenge set is frozen diagnostic evidence only: it is not training, hyperparameter-tuning, or model-selection data, and contains no scraped customer reviews or private data. Re-run it against the existing baseline artifact with `python -m src.evaluation.robustness_challenge`; use `--demo-only` only when intentionally producing the separate deterministic demo result without a baseline artifact. Challenge failures remain visible in the report and do not justify changing the model solely to improve its challenge score.
+
 ## How to Run API
 
 ```powershell

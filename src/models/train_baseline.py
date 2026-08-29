@@ -19,6 +19,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
+from src.data.dataset_paths import ensure_not_diagnostic_challenge
 from src.evaluation.metrics import (
     classification_report_markdown,
     compute_classification_metrics,
@@ -292,6 +293,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_parser().parse_args()
+    ensure_not_diagnostic_challenge(args.input)
     frame = pd.read_csv(args.input)
     manifest = _load_or_create_manifest(
         frame,
