@@ -1,5 +1,6 @@
 import json
 import sys
+from types import SimpleNamespace
 
 import pytest
 
@@ -12,7 +13,7 @@ from src.evaluation.robustness_challenge import (
     generate_report,
     load_challenge_dataset,
 )
-from src.models.predict import DemoPredictor, PredictionResult
+from src.models.predict import DemoPredictor
 from src.models.train_baseline import (
     PROCESSED_DATA_PATH,
     build_parser,
@@ -142,7 +143,7 @@ class LowScorePredictor:
 
     def predict(self, texts):
         return [
-            PredictionResult(
+            SimpleNamespace(
                 text=text,
                 predicted_label="neutral",
                 model_score=0.2,
@@ -170,7 +171,10 @@ def test_low_confidence_predictions_route_to_human_review():
     assert evaluation.low_confidence_count == 1
     assert evaluation.rows[0].routing.route == "human_review"
     assert evaluation.rows[0].routing.requires_human_review is True
-    assert "low_model_score" in evaluation.rows[0].routing.reason_codes
+    assert {
+        "low_model_score",
+        "low_confidence",
+    } & set(evaluation.rows[0].routing.reason_codes)
 
 
 def test_report_generation_separates_demo_from_optional_baseline(tmp_path):

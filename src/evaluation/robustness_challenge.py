@@ -146,11 +146,10 @@ def evaluate_predictor(
             raise ValueError(
                 f"predictor returned unsupported label: {prediction.predicted_label}"
             )
-        routing = route_prediction(
+        routing = _route_prediction(
             example.text,
-            prediction.predicted_label,
-            prediction.model_score,
-            review_threshold=review_threshold,
+            prediction,
+            review_threshold,
         )
         rows.append(
             ChallengeEvaluationRow(
@@ -197,9 +196,42 @@ def evaluate_predictor(
             sorted(Counter(row.routing.route for row in rows).items())
         ),
         low_confidence_count=sum(
-            row.prediction.model_score < review_threshold for row in rows
+            _prediction_score(row.prediction) < review_threshold for row in rows
         ),
     )
+
+
+def _prediction_score(prediction: PredictionResult) -> float:
+    score = getattr(prediction, "model_score", None)
+    if score is None:
+        score = getattr(prediction, "confidence", None)
+    if score is None:
+        raise ValueError("predictor result has no model score or confidence")
+    return float(score)
+
+
+def _route_prediction(
+    text: str,
+    prediction: PredictionResult,
+    review_threshold: float,
+) -> RoutingDecision:
+    score = _prediction_score(prediction)
+    try:
+        return route_prediction(
+            text,
+            prediction.predicted_label,
+            score,
+            review_threshold=review_threshold,
+        )
+    except TypeError as exc:
+        if "review_threshold" not in str(exc):
+            raise
+        return route_prediction(
+            text,
+            prediction.predicted_label,
+            score,
+            confidence_threshold=review_threshold,
+        )
 
 
 def _baseline_threshold(model_path: Path) -> float:
@@ -345,7 +377,7 @@ def _failure_lines(evaluation: ChallengeEvaluation) -> list[str]:
             id=row.example.id,
             expected=row.example.expected_label,
             predicted=row.prediction.predicted_label,
-            score=row.prediction.model_score,
+            score=_prediction_score(row.prediction),
             route=row.routing.route,
             text=_escape_table(row.example.text),
             rationale=_escape_table(row.example.rationale),
