@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup lint format test evaluate monitor explain demo api frontend-test frontend-build clean guardrails
+.PHONY: setup lint format test evaluate monitor explain demo challenge api frontend-test frontend-build clean guardrails
 
 setup:
 	$(PYTHON) -m pip install -r requirements-ci.txt
@@ -28,6 +28,8 @@ explain:
 demo:
 	$(PYTHON) scripts/generate_local_sentiment_report.py
 
+challenge:
+	$(PYTHON) -m src.evaluation.robustness_challenge
 api:
 	$(PYTHON) -m uvicorn src.api.main:app --reload --port 8000
 

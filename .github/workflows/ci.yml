@@ -27,6 +27,7 @@ jobs:
       - run: python -m src.evaluation.monitoring
       - run: python -m src.evaluation.active_learning
       - run: python -m src.evaluation.explanations
+      - run: python -m src.evaluation.robustness_challenge --demo-only --output "$RUNNER_TEMP/robustness_challenge.md"
       - run: python scripts/check_repo_guardrails.py
 
   frontend:
